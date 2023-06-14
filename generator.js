@@ -25,24 +25,7 @@ workbook.xlsx.readFile('./xlsx/names.xlsx')
 
         
         //test generatePerson
-
-        getCarreraIds(function(ids) {
-            const person = generatePerson(ids, firstNames, lastNames);
-            console.log(person);
-
-            //send to database
-            const query = "INSERT INTO alumnos (nombreAlumno, apellidoAlumno, fechaNacimiento, correoAlumno, telefonoAlumno, idCarrera, generoAlumno) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            const values = [person.nombreAlumno, person.apellidoAlumno, person.fechaNacimiento, person.correoAlumno, person.telefonoAlumno, person.idCarrera, person.generoAlumno];
-            connection.query(query, values, function(error, results, fields) {
-                if (error) throw error;
-                console.log(`Inserted row into the alumnos table.`);
-            });
-
-            } 
-        );
-
-        
-
+        sendtodatabasen(500);
 
 
     }
@@ -67,7 +50,7 @@ class Person {
 }
 
 function generatefechaNacimiento() {
-    const year = Math.floor(Math.random() * 20) + 1990;
+    const year = Math.floor(Math.random() * 14) + 1990;
     const month = (Math.floor(Math.random() * 12) + 1).toString().padStart(2, '0');
     const day = (Math.floor(Math.random() * 28) + 1).toString().padStart(2, '0');
     const fechaNacimiento = `${year}-${month}-${day}`;
@@ -124,4 +107,42 @@ function generatePerson(ids, firstNames, lastNames){
     const generoAlumno = generategeneroAlumno();
     const person = new Person(firstName, lastName, fechaNacimiento, correoAlumno, telefpmpAlumno, idCarrera, generoAlumno);
     return person;
+}
+
+function sendtodatabase(){
+    getCarreraIds(function(ids) {
+        const person = generatePerson(ids, firstNames, lastNames);
+        console.log(person);
+
+        //send to database
+        const query = "INSERT INTO alumnos (nombreAlumno, apellidoAlumno, fechaNacimiento, correoAlumno, telefonoAlumno, idCarrera, generoAlumno) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        const values = [person.nombreAlumno, person.apellidoAlumno, person.fechaNacimiento, person.correoAlumno, person.telefonoAlumno, person.idCarrera, person.generoAlumno];
+        connection.query(query, values, function(error, results, fields) {
+            if (error) throw error;
+            console.log(`Inserted row into the alumnos table.`);
+        });
+
+        } 
+    );
+}
+
+function sendtodatabasen(n){
+
+    for (let i = 0; i < n; i++) {
+        getCarreraIds(function(ids) {
+            const person = generatePerson(ids, firstNames, lastNames);
+            console.log(person);
+    
+            //send to database
+            const query = "INSERT INTO alumnos (nombreAlumno, apellidoAlumno, fechaNacimiento, correoAlumno, telefonoAlumno, idCarrera, generoAlumno) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            const values = [person.nombreAlumno, person.apellidoAlumno, person.fechaNacimiento, person.correoAlumno, person.telefonoAlumno, person.idCarrera, person.generoAlumno];
+            connection.query(query, values, function(error, results, fields) {
+                if (error) throw error;
+                console.log(`Inserted row into the alumnos table.`);
+            });
+    
+            } 
+        );
+    }
+    
 }
