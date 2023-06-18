@@ -25,7 +25,21 @@ workbook.xlsx.readFile('./xlsx/names.xlsx')
 
         
         //test generatePerson
-        sendtodatabasen(500);
+        
+
+        getCarreraIds(function(ids) {
+            const persons = [];
+            for (let i = 0; i < 10; i++) {
+                const person = generatePerson(ids, firstNames, lastNames);
+                persons.push(person);
+            }
+        }
+        );
+
+        for (let i = 0; i < 10; i++) {
+            console.log(persons[i]);
+        }
+
 
 
     }
